@@ -14,12 +14,22 @@
   max-width: 100%;
 }
 
+.title-link {
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.title-link:hover {
+  opacity: 0.8;
+}
+
 .title {
   font-size: 2rem;
   font-weight: 700;
   color: #0f3460;
   margin: 0;
   letter-spacing: 1px;
+  cursor: pointer;
 }
 
 .wish-list-btn {
