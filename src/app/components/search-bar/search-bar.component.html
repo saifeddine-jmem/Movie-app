@@ -1,0 +1,25 @@
+<div class="search-container">
+  <div class="search-wrapper" [class.focused]="isFocused">
+    <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search movies by title..."
+      [(ngModel)]="searchQuery"
+      (keypress)="onKeyPress($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    />
+    <button
+      *ngIf="searchQuery"
+      class="clear-btn"
+      (click)="onClear()"
+      type="button"
+    >
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </button>
+  </div>
+  <button class="search-btn" (click)="onSearch()" type="button">
+    Search
+  </button>
+</div>

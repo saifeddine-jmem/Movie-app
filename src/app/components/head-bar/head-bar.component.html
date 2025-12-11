@@ -1,0 +1,9 @@
+<header class="header">
+  <div class="header-container">
+    <h1 class="title">🎬 Movie List</h1>
+    <a routerLink="/wish-list" class="wish-list-btn">
+      <fa-icon [icon]="faHeart" class="heart-icon"></fa-icon>
+      <span class="wish-count" *ngIf="wishListCount > 0">{{ wishListCount }}</span>
+    </a>
+  </div>
+</header>

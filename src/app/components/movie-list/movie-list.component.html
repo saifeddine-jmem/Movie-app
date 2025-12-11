@@ -1,0 +1,77 @@
+<section class="movie-list-section">
+  <app-search-bar
+    (search)="onSearch($event)"
+    (clear)="onClear()"
+  ></app-search-bar>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <fa-icon [icon]="faSpinner" class="spinner"></fa-icon>
+    <p>Loading movies...</p>
+  </div>
+
+  <div *ngIf="!isLoading && movies.length === 0" class="no-results">
+    <p>No movies found. Try searching with a different title.</p>
+  </div>
+
+  <div *ngIf="!isLoading && movies.length > 0" class="movies-container">
+    <div class="movies-grid">
+      <a
+        *ngFor="let movie of movies"
+        [routerLink]="['/movie', movie.id]"
+        class="movie-card"
+      >
+        <div class="poster-container">
+          <img
+            [src]="getPosterUrl(movie.poster_path)"
+            [alt]="movie.title"
+            class="poster"
+          />
+          <div class="overlay">
+            <div class="rating">
+              <fa-icon [icon]="faStar" class="star-icon"></fa-icon>
+              {{ movie.vote_average.toFixed(1) }}
+            </div>
+          </div>
+        </div>
+        <div class="movie-info">
+          <h3 class="movie-title">{{ movie.title }}</h3>
+          <p class="release-date">{{ movie.release_date | date: 'yyyy' }}</p>
+          <button
+            class="wish-list-icon"
+            [class.in-wish-list]="isInWishList(movie.id)"
+            (click)="toggleWishList(movie, $event)"
+            type="button"
+          >
+            <fa-icon
+              [icon]="isInWishList(movie.id) ? faHeart : faHeartBroken"
+            ></fa-icon>
+          </button>
+        </div>
+      </a>
+    </div>
+
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button
+        class="pagination-btn"
+        [disabled]="currentPage === 1"
+        (click)="previousPage()"
+      >
+        ← Previous
+      </button>
+      <span class="page-info">
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
+      <button
+        class="pagination-btn"
+        [disabled]="currentPage === totalPages"
+        (click)="nextPage()"
+      >
+        Next →
+      </button>
+    </div>
+  </div>
+</section>

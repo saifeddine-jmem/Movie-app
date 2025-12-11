@@ -1,0 +1,61 @@
+<section class="wish-list-section">
+  <div class="wish-list-header">
+    <a routerLink="/" class="back-btn">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      Back to Movies
+    </a>
+    <h1 class="title">❤️ My Wish List</h1>
+    <button
+      *ngIf="!isEmpty"
+      class="clear-btn"
+      (click)="clearWishList()"
+      type="button"
+    >
+      Clear All
+    </button>
+  </div>
+
+  <div *ngIf="isEmpty" class="empty-state">
+    <div class="empty-icon">📋</div>
+    <h2>Your wish list is empty</h2>
+    <p>Start adding movies to your wish list to keep track of ones you want to watch!</p>
+    <a routerLink="/" class="back-to-movies-btn">
+      Explore Movies
+    </a>
+  </div>
+
+  <div *ngIf="!isEmpty" class="wish-list-container">
+    <div class="wish-list-grid">
+      <div *ngFor="let movie of wishList" class="wish-list-item">
+        <a [routerLink]="['/movie', movie.id]" class="item-link">
+          <div class="poster-container">
+            <img
+              [src]="getPosterUrl(movie.poster_path)"
+              [alt]="movie.title"
+              class="poster"
+            />
+            <div class="overlay">
+              <div class="rating">
+                <fa-icon [icon]="faStar" class="star-icon"></fa-icon>
+                {{ movie.vote_average.toFixed(1) }}
+              </div>
+            </div>
+          </div>
+          <div class="movie-info">
+            <h3 class="movie-title">{{ movie.title }}</h3>
+            <p class="release-date">{{ movie.release_date | date: 'yyyy' }}</p>
+            <p class="overview" [title]="movie.overview">{{ movie.overview }}</p>
+          </div>
+        </a>
+        <button
+          class="remove-btn"
+          (click)="removeFromWishList(movie.id, $event)"
+          type="button"
+          title="Remove from wish list"
+        >
+          <fa-icon [icon]="faTrash"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

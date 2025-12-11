@@ -1,0 +1,101 @@
+<div *ngIf="isLoading" class="loading">
+  <fa-icon [icon]="faSpinner" class="spinner"></fa-icon>
+  <p>Loading movie details...</p>
+</div>
+
+<div *ngIf="error && !isLoading" class="error-message">
+  {{ error }}
+  <br />
+  <a routerLink="/" class="error-link">Back to Movies</a>
+</div>
+
+<div *ngIf="movie && !isLoading" class="movie-detail">
+  <div
+    class="backdrop"
+    [style.backgroundImage]="'url(' + getBackdropUrl() + ')'"
+  ></div>
+
+  <div class="detail-container">
+    <a routerLink="/" class="back-btn">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      Back to List
+    </a>
+
+    <div class="detail-content">
+      <div class="poster-section">
+        <img [src]="getPosterUrl()" [alt]="movie.title" class="poster" />
+        <button
+          class="wish-list-btn"
+          [class.in-wish-list]="isInWishList"
+          (click)="toggleWishList()"
+        >
+          <fa-icon [icon]="isInWishList ? faHeart : faHeartBroken"></fa-icon>
+          {{ isInWishList ? 'In Wish List' : 'Add to Wish List' }}
+        </button>
+      </div>
+
+      <div class="info-section">
+        <h1 class="title">{{ movie.title }}</h1>
+
+        <div class="meta-info">
+          <div class="meta-item">
+            <span class="meta-label">Release Date:</span>
+            <span class="meta-value">{{ movie.release_date | date: 'MMM dd, yyyy' }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Rating:</span>
+            <span class="meta-value rating">
+              <fa-icon [icon]="faStar" class="star"></fa-icon>
+              {{ movie.vote_average.toFixed(1) }} / 10
+            </span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Runtime:</span>
+            <span class="meta-value">{{ movie.runtime }} minutes</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Language:</span>
+            <span class="meta-value">{{ movie.original_language | uppercase }}</span>
+          </div>
+        </div>
+
+        <div class="genres" *ngIf="movie.genres && movie.genres.length > 0">
+          <h3>Genres</h3>
+          <div class="genre-list">
+            <span *ngFor="let genre of movie.genres" class="genre-tag">
+              {{ genre.name }}
+            </span>
+          </div>
+        </div>
+
+        <div class="overview">
+          <h3>Overview</h3>
+          <p>{{ movie.overview }}</p>
+        </div>
+
+        <div class="financial-info" *ngIf="movie.budget > 0 || movie.revenue > 0">
+          <h3>Financial Information</h3>
+          <div class="financial-items">
+            <div class="financial-item" *ngIf="movie.budget > 0">
+              <span class="financial-label">Budget:</span>
+              <span class="financial-value">{{ formatCurrency(movie.budget) }}</span>
+            </div>
+            <div class="financial-item" *ngIf="movie.revenue > 0">
+              <span class="financial-label">Revenue:</span>
+              <span class="financial-value">{{ formatCurrency(movie.revenue) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="production-info" *ngIf="movie.production_companies && movie.production_companies.length > 0">
+          <h3>Production Companies</h3>
+          <div class="production-list">
+            <p *ngFor="let company of movie.production_companies">
+              {{ company.name }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
